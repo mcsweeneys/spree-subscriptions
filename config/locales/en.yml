@@ -38,7 +38,7 @@ en:
     print: print
     ship: Ship
     shipped_to: Shipped to
-    subscribe_call_to_action: Subscribe Now
+    subscribe_call_to_action: Subscribe
     subscribed: Subscribed
     subscription_details: Subscription Details
     subscription_ended: Subscription ended
