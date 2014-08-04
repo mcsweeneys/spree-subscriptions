@@ -12,14 +12,14 @@ en:
       active: active
       canceled: canceled
 
-    confirm_ship: "Ship this issue?"
-    confirm_unship: "Unship this issue?"
-    creating_issue: "Create issue"
-    creating_subscription: "Create subscription"
+    confirm_ship: Ship this issue?
+    confirm_unship: Unship this issue?
+    creating_issue: Create issue
+    creating_subscription: Create subscription
     csv: "CSV"
     customer_details_updated: "The customer's details have been updated"
-    editing_issue: "Edit issue"
-    editing_subscription: "Edit subscription"
+    editing_issue: "Edit Issue"
+    editing_subscription: "Edit Subscription"
     issue: "issue"
     issue_created: "Issue created!"
     issue_not_created: "Issue not created!"
@@ -33,8 +33,8 @@ en:
     my_subscriptions: My subscriptions
     new_issue: New issue
     new_subscription: New subscription
-    listing_issues: Available issues
-    listing_subscriptions: Available Subscriptions
+    listing_issues: Listing issues
+    listing_subscriptions: Listing Subscriptions
     pdf: PDF
     print: print
     ship: Ship
@@ -48,7 +48,8 @@ en:
     subscription_ending_for: "Subscription for %{email} is ending!"
     subscription_successfully_created: "Subscription successfully created!"
     subscription_successfully_updated: "Subscription successfully updated!"
-    unship: "Unship"
+    subscriptions: Subscriptions
+    unship: Unship
     you_have_no_subscriptions_yet: "You have no subscriptions yet"
 
     activerecord:
