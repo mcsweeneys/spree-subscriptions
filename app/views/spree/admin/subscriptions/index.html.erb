@@ -2,29 +2,25 @@
   <%= Spree.t(:listing_subscriptions) %>
 <% end %>
 
+<% render partial: 'spree/admin/shared/subscriptions_sub_menu' %>
+
 <table class="index" id="listing_subscriptions">
   <thead>
     <tr>
-      <th data-hook="admin_subscriptions_index_header_actions"></th>
-      <th><%= sort_link @search, :created_at, Spree.t(:created_at, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :id, Spree.t(:id, scope: 'activerecord.attributes.spree/subscription') %></th>
+      <th><%= sort_link @search, :user, Spree.t(:user, scope: 'activerecord.attributes.spree/subscription') %></th>
+      <th><%= sort_link @search, :subscription, Spree.t(:subscription, scope: 'activerecord.attributes.spree/subscription') %></th>
       <th><%= sort_link @search, :remaining_issues, Spree.t(:remaining_issues, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :state, Spree.t(:state, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= sort_link @search, :email, Spree.t(:email, scope: 'activerecord.attributes.spree/subscription') %></th>
-      <th><%= Spree.t(:firstname, scope: 'activerecord.attributes.spree/address') %></th>
-      <th><%= Spree.t(:lastname, scope: 'activerecord.attributes.spree/address') %></th>
+      <th><%= sort_link @search, :status, Spree.t(:status, scope: 'activerecord.attributes.spree/subscription') %></th>
+      <th data-hook="admin_subscriptions_index_header_actions" class="actions"></th>
     </tr>
   </thead>
   <tbody>
     <% @subscriptions.each do |subscription| %>
-      <tr>
-        <td><%= subscription.created_at.to_date %></td>
-        <td><%= link_to subscription.id, edit_object_url(subscription) %></td>
-        <td><%= subscription.remaining_issues %></td>
-        <td><%= t(subscription.state, scope: 'subscription_state').downcase %></td>
-        <td><%= subscription.email %></td>
-        <td><%= subscription.ship_address.firstname %></td>
-        <td><%= subscription.ship_address.lastname %></td>
+      <tr id="<%= spree_dom_id subscription %>" data-hook="admin_subscriptions_index_rows" class="<%= cycle('odd', 'even') %>">
+        <td class="align-center spree_subscriptions_table"><%= subscription.user.try(:email) %></td>
+        <td class="align-center spree_subscriptions_table"><%= link_to subscription.magazine.name, admin_subscriber_list_path(subscription.magazine) %></td>
+        <td class="align-center spree_subscriptions_table"><%= subscription.remaining_issues %></td>
+        <td class="align-center spree_subscriptions_table"><%= Spree.t(subscription.state, :scope => 'subscription_state').downcase %></td>
         <td class="actions" data-hook="admin_subscriptions_index_row_actions">
           <%= link_to_edit subscription, no_text: true, class: 'edit' if can?(:edit, subscription)  %>
           &nbsp;
@@ -43,22 +39,67 @@
 
 <% content_for :sidebar do %>
   <div class="box" data-hook="admin_subscriptions_index_search">
-    <h3><%= Spree.t(:search) %></h3>
     <%= search_form_for [:admin, @search] do |f| %>
-      <p>
-        <%= label_tag nil, Spree.t(:email) %><br />
-        <%= f.text_field :email_cont, size: 25 %>
-      </p>
-      <p>
-        <%= label_tag nil, Spree.t(:first_name_begins_with) %><br />
-        <%= f.text_field :ship_address_firstname_start, size: 25 %>
-      </p>
-      <p>
-        <%= label_tag nil, Spree.t(:last_name_begins_with) %><br />
-        <%= f.text_field :ship_address_lastname_start, size: 25 %>
-      </p>
-      <div data-hook="admin_orders_index_search_buttons">
-        <p><%= button Spree.t(:search) %></p>
+      <div class="field">
+        <%= f.label Spree.t(:user_email) %> <br>
+        <%= f.text_field :user_email_cont, class: 'fullwidth' %>
+      </div>
+      <div class="field">
+        <%= f.label Spree.t(:magazine_name) %> <br>
+        <%= f.text_field :magazine_name_cont, class: 'fullwidth' %>
+      </div>
+      <div class="field">
+        <%= f.label "Order Number" %> <br>
+        <%= f.text_field :order_number_cont, class: 'fullwidth' %><br/>
+      </div>
+      <div class="field">
+        <%= f.label Spree.t(:remaining_issues) %> <br>
+        <%= f.number_field :remaining_issues_eq, min: 0, class: 'fullwidth' %>
+      </div>
+      <div class="field">
+        <%= f.check_box :complimentary_true %>
+        <%= f.label Spree.t(:complimentary) %>
+      </div>
+      <div class="field">
+        <%= f.label Spree.t(:ship_address) %> <br>
+        <%= Spree.t(:first_name) %><br/>
+        <%= f.text_field :ship_address_firstname_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:last_name) %><br/>
+        <%= f.text_field :ship_address_lastname_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:address_1) %><br/>
+        <%= f.text_field :ship_address_address1_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:address_2) %><br/>
+        <%= f.text_field :ship_address_address2_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:city) %><br/>
+        <%= f.text_field :ship_address_city_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:state) %><br/>
+        <%= f.text_field :ship_address_state_name_or_ship_address_state_abbr_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:country) %><br/>
+        <%= f.text_field :ship_address_country_name_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:zipcode) %><br/>
+        <%= f.text_field :ship_address_zipcode_eq, class: 'fullwidth' %><br/>
+      </div>
+      <div class="field">
+        <%= f.label Spree.t(:billing_address) %> <br>
+        <%= Spree.t(:first_name) %><br/>
+        <%= f.text_field :billing_address_firstname_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:last_name) %><br/>
+        <%= f.text_field :billing_address_lastname_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:address_1) %><br/>
+        <%= f.text_field :billing_address_address1_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:address_2) %><br/>
+        <%= f.text_field :billing_address_address2_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:city) %><br/>
+        <%= f.text_field :billing_address_city_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:state) %><br/>
+        <%= f.text_field :billing_address_state_name_or_billing_address_state_abbr_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:country) %><br/>
+        <%= f.text_field :billing_address_country_name_cont, class: 'fullwidth' %><br/>
+        <%= Spree.t(:zipcode) %><br/>
+        <%= f.text_field :billing_address_zipcode_eq, class: 'fullwidth' %><br/>
+      </div>
+      <div data-hook="admin_subscriptions_index_search_buttons">
+        <%= button Spree.t(:search), 'search' %>
       </div>
     <% end %>
   </div>
