@@ -42,5 +42,11 @@ class Spree::Issue < ActiveRecord::Base
     # override getter method to include deleted products, as per https://github.com/radar/paranoia
     Spree::Product.unscoped { super }
   end
+  
+  def to_csv
+    if shipped_issues.present?
+      shipped_issues.csv_string
+    end
+  end
 
 end

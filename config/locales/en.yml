@@ -16,6 +16,7 @@ en:
     confirm_unship: "Unship this issue?"
     creating_issue: "Create issue"
     creating_subscription: "Create subscription"
+    csv: "CSV"
     customer_details_updated: "The customer's details have been updated"
     editing_issue: "Edit issue"
     editing_subscription: "Edit subscription"

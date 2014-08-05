@@ -9,5 +9,11 @@ module Spree
 
     scope :subscribable, -> { where(subscribable: true) }
     scope :unsubscribable, -> { where(subscribable: false) }
+    
+    def active_subscriber_csv
+      if subscribable?
+        subscriptions.eligible_for_shipping.csv_string
+      end
+    end
   end
 end

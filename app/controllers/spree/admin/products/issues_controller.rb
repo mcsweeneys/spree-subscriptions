@@ -19,6 +19,7 @@ module Spree
               labels = IssuePdf.new(addresses_list, view_context)
               send_data labels.document.render, filename: "#{@issue.name}.pdf", type: "application/pdf", disposition: "inline"
             end
+            format.csv { render text: @issue.to_csv }
           end
         end
 

@@ -10,6 +10,14 @@
 
 <h1><%= Spree.t(:listing_issues) %></h1>
 
+<div data-hook="active_subscribers">
+  <br>
+  <h4><%= number_with_delimiter(Spree::Subscription.where(magazine: @magazine).eligible_for_shipping.count) %> Active Subscribers<br>
+  <%= link_to_with_icon 'list', Spree.t(:csv), admin_magazine_path(@magazine, format: :csv) %><br>
+  </h4>
+  <br>
+</div>
+
 <table class="index" id="listing_issues">
   <thead>
     <tr>
