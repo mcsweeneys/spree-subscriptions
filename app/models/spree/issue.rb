@@ -46,6 +46,8 @@ class Spree::Issue < ActiveRecord::Base
   def to_csv
     if shipped_issues.present?
       shipped_issues.csv_string
+    else
+      Spree::Subscription.where(id: magazine.subscriptions.eligible_for_shipping_issue(self).collect{|s| s.id}).csv_string
     end
   end
 
