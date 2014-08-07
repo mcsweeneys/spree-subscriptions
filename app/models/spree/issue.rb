@@ -20,7 +20,7 @@ class Spree::Issue < ActiveRecord::Base
   end
 
   def ship!
-    subscriptions.eligible_for_shipping.each{ |s| s.ship!(self) }
+    subscriptions.eligible_for_shipping_issue(self).each{ |s| s.ship!(self) }
     update_attribute(:shipped_at, Time.now)
   end
 
