@@ -18,7 +18,7 @@
     <% @subscriptions.each do |subscription| %>
       <tr id="<%= spree_dom_id subscription %>" data-hook="admin_subscriptions_index_rows" class="<%= cycle('odd', 'even') %>">
         <td class="align-center spree_subscriptions_table"><%= subscription.user.try(:email) %></td>
-        <td class="align-center spree_subscriptions_table"><%= link_to subscription.magazine.name, admin_subscriber_list_path(subscription.magazine) %></td>
+        <td class="align-center spree_subscriptions_table"><%= link_to subscription.magazine.name, admin_magazine_issues_path(subscription.magazine) %></td>
         <td class="align-center spree_subscriptions_table"><%= subscription.remaining_issues %></td>
         <td class="align-center spree_subscriptions_table"><%= Spree.t(subscription.state, :scope => 'subscription_state').downcase %></td>
         <td class="actions" data-hook="admin_subscriptions_index_row_actions">
