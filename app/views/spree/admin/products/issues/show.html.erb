@@ -15,7 +15,7 @@
 <br class="clear">
 <br>
 
-<h1><%= @issue.shipped? ? Spree.t(:shipped_to) : Spree.t(:subscribed) %></h1>
+<h1><%= number_with_delimiter @product_subscriptions.size %> <%= @issue.shipped? ? "" : "Eligible" %> Recipients</h1>
 
 <table class="index" id="subscriptions_listing">
   <thead data-hook="admin_subscriptions_index_headers">
