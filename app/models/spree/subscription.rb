@@ -13,6 +13,7 @@ class Spree::Subscription < ActiveRecord::Base
   scope :canceled, -> { where(state: :canceled) }
   scope :eligible_for_shipping, -> { where("remaining_issues >= 1") }
   scope :eligible_for_shipping_issue, ->(issue) { eligible_for_shipping.includes(:issues).select {|sub| !sub.received_magazine_issue?(issue.magazine_issue) } }
+  scope :canceled, -> { where(state: :canceled) }
 
   state_machine :state, initial: :active do
     event :cancel do
@@ -38,6 +39,10 @@ class Spree::Subscription < ActiveRecord::Base
 
   def ending?
     remaining_issues == 1
+  end
+  
+  def canceled?
+    return state.intern == :canceled
   end
 
   def canceled?
