@@ -49,10 +49,6 @@
         <%= f.text_field :magazine_name_cont, class: 'fullwidth' %>
       </div>
       <div class="field">
-        <%= f.label "Order Number" %> <br>
-        <%= f.text_field :order_number_cont, class: 'fullwidth' %><br/>
-      </div>
-      <div class="field">
         <%= f.label Spree.t(:remaining_issues) %> <br>
         <%= f.number_field :remaining_issues_eq, min: 0, class: 'fullwidth' %>
       </div>
