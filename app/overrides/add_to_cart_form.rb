@@ -7,9 +7,16 @@ Deface::Override.new(virtual_path: "spree/products/_cart_form",
 Deface::Override.new(virtual_path: "spree/products/_cart_form",
   name: "add_subscription_info_to_add_to_cart",
   insert_bottom: "div.add-to-cart",
-  text: "<% if @product.subscribable? && spree_current_user && spree_current_user.subscriptions.where(magazine: @product).present? %>
-  <% user_sub = spree_current_user.subscriptions.where(magazine: @product).first %>
-  <div class='subscription_status'><%= user_sub.remaining_issues > 0 ? user_sub.remaining_issues.to_s + ' ' + 'Issue'.pluralize(user_sub.remaining_issues) + ' Remaining' : 'Expired on ' + user_sub.shipped_issues.last.issue.shipped_at.strftime('%B %e, %Y') %></div>
+  text: "
+  <% if @product.subscribable? && spree_current_user && spree_current_user.subscriptions.where(magazine: @product).present? %>
+    <% user_sub = spree_current_user.subscriptions.where(magazine: @product).order(:created_at).order(:remaining_issues).last %>
+    <div class='subscription_status'>
+      <% if user_sub.remaining_issues > 0 %>
+        <%= user_sub.remaining_issues.to_s + ' ' + 'Issue'.pluralize(user_sub.remaining_issues) + ' Remaining' %>
+      <% elsif user_sub.shipped_issues.present? %>
+        <%= 'Expired on ' + user_sub.shipped_issues.last.issue.shipped_at.strftime('%B %e, %Y') %>
+      <% end %>
+    </div>
   <% end %>"
   )
 
