@@ -14,6 +14,6 @@ Spree::Core::Engine.routes.draw do
       member do
         get :subscriptions
       end
-    end
+    end    
   end
 end
