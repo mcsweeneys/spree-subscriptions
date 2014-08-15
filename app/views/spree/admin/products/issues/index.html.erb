@@ -12,8 +12,8 @@
 
 <div data-hook="active_subscribers">
   <br>
-  <h4><%= number_with_delimiter(Spree::Subscription.where(magazine: @magazine).eligible_for_shipping.count) %> Active Subscribers<br>
-  <%= link_to_with_icon 'list', Spree.t(:csv), admin_magazine_path(@magazine, format: :csv) %><br>
+  <h4>
+    <%= number_with_delimiter(Spree::Subscription.where(magazine: @magazine).eligible_for_shipping.count) %> Active Subscribers <span data-hook="admin_magazine_active_subscribers_csv"><%= link_to_with_icon 'list', Spree.t(:csv), admin_magazine_path(@magazine, format: :csv) %></span>
   </h4>
   <br>
 </div>
