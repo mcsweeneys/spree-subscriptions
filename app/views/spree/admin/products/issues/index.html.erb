@@ -22,6 +22,7 @@
   <thead>
     <tr>
       <th data-hook="admin_issues_index_header_name"><%= t(:name, scope: 'activerecord.attributes.spree/issue') %></th>
+      <th data-hook="admin_issues_index_header_num_subscribers"><%= Spree.t(:recipients) %></th>
       <th data-hook="admin_issues_index_header_shipped_at"><%= t(:shipped_at, scope: 'activerecord.attributes.spree/issue') %></th>
       <th data-hook="admin_issues_index_header_actions" class="actions"></th>
     </tr>
@@ -30,6 +31,15 @@
     <% @issues.each do |issue| %>
       <tr>
         <td data-hook="admin_issues_index_row_name"><%= link_to issue.name, admin_magazine_issue_url(@magazine, issue) %></td>
+        <td data-hook="admin_issues_index_row_subscribers">
+          <% if issue.shipped? %>
+            <%= pluralize(number_with_delimiter(issue.shipped_issues.size), Spree.t(:recipient)) %>
+          <% else %>
+            <%= pluralize(number_with_delimiter(@magazine.subscriptions.eligible_for_shipping_issue(issue).size), Spree.t(:eligible_recipient)) %>
+          <% end %>
+          <br>
+          <span data-hook="admin_issues_index_row_subscribers_csv"><%= link_to_with_icon 'list', Spree.t(:csv), admin_magazine_issue_path(@magazine, issue, format: :csv) %></span>
+        </td>
         <td data-hook="admin_issues_index_row_shipped_at"><%= issue.shipped? ? issue.shipped_at.to_s(:db) : Spree.t(:issue_not_shipped) %></td>
         <td class="actions" data-hook="admin_issues_index_row_actions">
           <%= link_to_with_icon :truck, Spree.t(:ship), admin_magazine_issue_ship_path(@magazine, issue), {no_text: true, confirm: Spree.t(:confirm_ship)} if !issue.shipped? %>

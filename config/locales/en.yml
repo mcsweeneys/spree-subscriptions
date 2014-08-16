@@ -20,6 +20,8 @@ en:
     customer_details_updated: "The customer's details have been updated"
     editing_issue: "Edit Issue"
     editing_subscription: "Edit Subscription"
+    eligible_recipient: "Eligible Recipient"
+    eligible_recipients: "Eligible Recipients"
     issue: "issue"
     issue_created: "Issue created!"
     issue_not_created: "Issue not created!"
@@ -37,6 +39,8 @@ en:
     listing_subscriptions: Listing Subscriptions
     pdf: PDF
     print: print
+    recipient: Recipient
+    recipients: Recipients
     renew_call_to_action: Renew
     ship: Ship
     shipped_to: Shipped to
