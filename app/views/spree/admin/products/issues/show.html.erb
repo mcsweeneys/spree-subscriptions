@@ -7,10 +7,21 @@
 </div>
 
 <div class="toolbar" data-hook="admin_issue_show_buttons">
-  <%= button_link_to Spree.t(:ship), admin_magazine_issue_ship_path(@product, @issue), icon: :truck, confirm: Spree.t(:are_you_sure) if !@issue.shipped? %>
-  <%= button_link_to Spree.t(:pdf), admin_magazine_issue_path(@product, @issue, format: :pdf), icon: 'file-pdf-o' %>
+  <span data-hook="admin_issue_show_ship_button">
+    <%= button_link_to Spree.t(:ship), admin_magazine_issue_ship_path(@product, @issue), icon: :truck, confirm: Spree.t(:are_you_sure) if !@issue.shipped? %>
+  </span>
+  <span data-hook="admin_issue_show_pdf_button">
+    <%= button_link_to Spree.t(:pdf), admin_magazine_issue_path(@product, @issue, format: :pdf), icon: 'file-pdf-o' %>
+  </span>
+  <span data-hook="admin_issue_show_csv_button">
+    <%= button_link_to Spree.t(:csv), admin_magazine_issue_path(@product, @issue, format: :csv), icon: 'file-excel-o' %>
+  </span>
+  <span data-hook="admin_issue_show_unship_button">
   <%= button_link_to Spree.t(:unship), admin_magazine_issue_unship_path(@magazine, @issue), icon: :history, confirm: Spree.t(:confirm_unship) if @issue == @issue.magazine.issues.shipped.order('shipped_at DESC').first %>
+  </span>
+  <span data-hook="admin_issue_show_delete_button">
   <%= button_link_to Spree.t(:delete), admin_magazine_issue_url(@magazine, @issue), icon: :trash, method: :delete if !@issue.shipped? %>
+  </span>
 </div>
 <br class="clear">
 <br>
