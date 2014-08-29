@@ -32,6 +32,7 @@ en:
     issue_updated: "Issue updated!"
     issues: "Issues"
     issues_number: "Issues number"
+    issues_shipped: issues shipped
     my_subscriptions: My subscriptions
     new_issue: New issue
     new_subscription: New subscription
