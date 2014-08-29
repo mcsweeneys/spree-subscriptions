@@ -38,9 +38,9 @@
           <% when :unshipped %>
             <%= pluralize(number_with_delimiter(@magazine.subscriptions.eligible_for_shipping_issue(issue).size), Spree.t(:eligible_recipient)) %>
           <% when :ship_pending %>
-            <i><%= number_with_delimiter(issue.shipped_issues.size) %> <%= Spree.t(:issues_shipped) %> shipped so far</i>
+            <i><%= pluralize(number_with_delimiter(issue.shipped_issues.size), Spree.t(:issues)) %> shipped so far</i>
           <% when :unship_pending %>
-            <i><%= number_with_delimiter(issue.shipped_issues.size) %> <%=  Spree.t(:issues_shipped) %> remaining to unship</i>
+            <i><%= pluralize(number_with_delimiter(issue.shipped_issues.size), Spree.t(:issues)) %> remaining to unship</i>
           <% else %>
             <%= "STATE: " + issue.state %>
           <% end %>
