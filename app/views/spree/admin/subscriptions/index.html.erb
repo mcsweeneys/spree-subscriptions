@@ -71,7 +71,7 @@
         <%= Spree.t(:state) %><br/>
         <%= f.text_field :ship_address_state_name_or_ship_address_state_abbr_cont, class: 'fullwidth' %><br/>
         <%= Spree.t(:country) %><br/>
-        <%= f.text_field :ship_address_country_name_cont, class: 'fullwidth' %><br/>
+        <%= f.collection_select :ship_address_country_id_eq, available_countries, :id, :name, { include_blank: true }, {:class => 'select2 fullwidth'} %>
         <%= Spree.t(:zipcode) %><br/>
         <%= f.text_field :ship_address_zipcode_eq, class: 'fullwidth' %><br/>
       </div>
@@ -90,7 +90,7 @@
         <%= Spree.t(:state) %><br/>
         <%= f.text_field :billing_address_state_name_or_billing_address_state_abbr_cont, class: 'fullwidth' %><br/>
         <%= Spree.t(:country) %><br/>
-        <%= f.text_field :billing_address_country_name_cont, class: 'fullwidth' %><br/>
+        <%= f.collection_select :billing_address_country_id_eq, available_countries, :id, :name, { include_blank: true }, {:class => 'select2 fullwidth'} %>
         <%= Spree.t(:zipcode) %><br/>
         <%= f.text_field :billing_address_zipcode_eq, class: 'fullwidth' %><br/>
       </div>
