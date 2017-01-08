@@ -68,10 +68,20 @@
         <%= f.text_field :ship_address_address2_cont, class: 'fullwidth' %><br/>
         <%= Spree.t(:city) %><br/>
         <%= f.text_field :ship_address_city_cont, class: 'fullwidth' %><br/>
-        <%= Spree.t(:country) %><br/>
-        <%= f.collection_select :ship_address_country_id_eq, available_countries, :id, :name, { include_blank: true }, {:class => 'select2 fullwidth'} %>
-        <%= Spree.t(:state) %><br/>
-        <%= f.text_field :ship_address_state_name_or_ship_address_state_abbr_cont, class: 'fullwidth' %><br/>
+        <% type = "ship_address" %>
+        <%= f.label "#{type}_country_id_eq".to_sym, Spree.t(:country) %>
+        <span id="<%= type.chars.first %>country">
+          <%= f.collection_select "#{type}_country_id_eq".to_sym, available_countries, :id, :name, { include_blank: true }, {class: 'select2 fullwidth'} %>
+        </span>
+        <% country = Spree::Country.find_by_id(eval("f.object.#{type}_country_id_eq")) %>
+        <%= f.label "#{type}_state_id_eq".to_sym, Spree.t(:state) %>
+        <span id="<%= type.chars.first %>state">
+          <% show_states = country.try(:states).try(:present?) %>
+          <%= f.text_field "#{type}_state_name_cont".to_sym,
+                style: "display: #{show_states ? 'none' : 'block' };",
+               disabled: show_states, class: 'fullwidth state_name' %>
+          <%= f.collection_select "#{type}_state_id_eq".to_sym, country.try(:states).try(:sort) || [], :id, :name, {include_blank: true}, {class: 'select2 fullwidth', style: "display: #{show_states ? 'block' : 'none'}", disabled: !show_states} %>
+        </span>
         <%= Spree.t(:zipcode) %><br/>
         <%= f.text_field :ship_address_zipcode_eq, class: 'fullwidth' %><br/>
       </div>
@@ -87,10 +97,20 @@
         <%= f.text_field :billing_address_address2_cont, class: 'fullwidth' %><br/>
         <%= Spree.t(:city) %><br/>
         <%= f.text_field :billing_address_city_cont, class: 'fullwidth' %><br/>
-        <%= Spree.t(:country) %><br/>
-        <%= f.collection_select :billing_address_country_id_eq, available_countries, :id, :name, { include_blank: true }, {:class => 'select2 fullwidth'} %>
-        <%= Spree.t(:state) %><br/>
-        <%= f.text_field :billing_address_state_name_or_billing_address_state_abbr_cont, class: 'fullwidth' %><br/>
+        <% type = "billing_address" %>
+        <%= f.label "#{type}_country_id_eq".to_sym, Spree.t(:country) %>
+        <span id="<%= type.chars.first %>country">
+          <%= f.collection_select "#{type}_country_id_eq".to_sym, available_countries, :id, :name, { include_blank: true }, {class: 'select2 fullwidth'} %>
+        </span>
+        <% country = Spree::Country.find_by_id(eval("f.object.#{type}_country_id_eq")) %>
+        <%= f.label "#{type}_state_id_eq".to_sym, Spree.t(:state) %>
+        <span id="<%= type.chars.first %>state">
+          <% show_states = country.try(:states).try(:present?) %>
+          <%= f.text_field "#{type}_state_name_cont".to_sym,
+                style: "display: #{show_states ? 'none' : 'block' };",
+               disabled: show_states, class: 'fullwidth state_name' %>
+          <%= f.collection_select "#{type}_state_id_eq".to_sym, country.try(:states).try(:sort) || [], :id, :name, {include_blank: true}, {class: 'select2 fullwidth', style: "display: #{show_states ? 'block' : 'none'}", disabled: !show_states} %>
+        </span>
         <%= Spree.t(:zipcode) %><br/>
         <%= f.text_field :billing_address_zipcode_eq, class: 'fullwidth' %><br/>
       </div>
@@ -99,4 +119,13 @@
       </div>
     <% end %>
   </div>
+<% end %>
+
+<% content_for :head do %>
+  <%= javascript_tag do -%>
+    $(document).ready(function(){
+      $('span#scountry .select2').on('change', function() { update_state('s'); });
+      $('span#bcountry .select2').on('change', function() { update_state('b'); });
+    });
+  <% end -%>
 <% end %>
